@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,11 +9,9 @@
             font-family: Arial, sans-serif;
             margin: 20px;
         }
-
         #matches {
             margin-top: 10px;
         }
-
         .match-item {
             cursor: pointer;
             padding: 5px;
@@ -22,21 +19,32 @@
             margin: 2px 0;
             border-radius: 5px;
         }
-
         .match-item:hover {
             background-color: #f0f0f0;
         }
+        table {
+            border-collapse: collapse;
+            margin-top: 10px;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 6px 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #eee;
+        }
     </style>
 </head>
-
 <body>
     <h1>主要取引先 逆引きツール</h1>
-    <label for="codeInput">企業名を入力:</label>
-    <input type="text" id="codeInput" placeholder="例:トヨタ自動車">
+    <label for="codeInput">取引先名を入力:</label>
+    <input type="text" id="codeInput" placeholder="例: 武田薬品">
     <button onclick="searchCompany()">検索</button>
 
     <div id="matches"></div>
-    <p id="result"></p>
+    <div id="result"></div>
 
     <script>
         let companyData = [];
@@ -120,37 +128,15 @@
                 return;
             }
 
-            // 表形式で出力
-            let table = `
-                <table>
-                    <tr>
-                        <th>証券コード</th>
-                        <th>企業名</th>
-                        <th>割合(%)</th>
-                    </tr>
-            `;
+            let list = "<ul>";
 
             results.forEach(item => {
-                table += `
-                    <tr>
-                        <td>${item.code}</td>
-                        <td>${item.name}</td>
-                        <td>${item.ratio}</td>
-                    </tr>
-                `;
+                list += `<li>${item.code}: ${item.name} - ${item.ratio}<li>`;
             });
 
-            table += "</table>";
+            table += "</ul>";
             resultDiv.innerHTML += table;
         }
-
-        // Enterキーでも検索できるようにする
-        document.getElementById("codeInput").addEventListener("keydown", function (event) {
-            if (event.key === "Enter") {
-                searchCompany();
-            }
-        });
     </script>
 </body>
-
 </html>
