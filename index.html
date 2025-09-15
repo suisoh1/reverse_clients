@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,9 +10,11 @@
             font-family: Arial, sans-serif;
             margin: 20px;
         }
+
         #matches {
             margin-top: 10px;
         }
+
         .match-item {
             cursor: pointer;
             padding: 5px;
@@ -19,28 +22,34 @@
             margin: 2px 0;
             border-radius: 5px;
         }
+
         .match-item:hover {
             background-color: #f0f0f0;
         }
+
         table {
             border-collapse: collapse;
             margin-top: 10px;
             width: 100%;
         }
-        th, td {
+
+        th,
+        td {
             border: 1px solid #ccc;
             padding: 6px 10px;
             text-align: left;
         }
+
         th {
             background-color: #eee;
         }
     </style>
 </head>
+
 <body>
     <h1>主要取引先 逆引きツール</h1>
     <label for="codeInput">取引先名を入力:</label>
-    <input type="text" id="codeInput" placeholder="例: 武田薬品">
+    <input type="text" id="codeInput" placeholder="例:トヨタ自動車">
     <button onclick="searchCompany()">検索</button>
 
     <div id="matches"></div>
@@ -131,12 +140,19 @@
             let list = "<ul>";
 
             results.forEach(item => {
-                list += `<li>${item.code}: ${item.name} - ${item.ratio}<li>`;
+                const url = `https://suisoh1.github.io/visibility_of_business_partners/?code=${item.code}`;
+                list += `
+            <li>
+                <a href="${url}" target="_blank">
+                    ${item.code}: ${item.name}
+                </a> - ${item.ratio}
+            </li>`;
             });
 
-            table += "</ul>";
-            resultDiv.innerHTML += table;
+            list += "</ul>";
+            resultDiv.innerHTML += list;
         }
     </script>
 </body>
+
 </html>
