@@ -109,6 +109,7 @@
                 if (company["主要取引先"]) {
                     company["主要取引先"].forEach(partner => {
                         if (partner["取引先名"].includes(inputName)) {
+                            inputName = partner["取引先名"];
                             matches.add(partner["取引先名"]);
                         }
                     });
