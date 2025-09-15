@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,9 +10,11 @@
             font-family: Arial, sans-serif;
             margin: 20px;
         }
+
         #matches {
             margin-top: 10px;
         }
+
         .match-item {
             cursor: pointer;
             padding: 5px;
@@ -19,11 +22,13 @@
             margin: 2px 0;
             border-radius: 5px;
         }
+
         .match-item:hover {
             background-color: #f0f0f0;
         }
     </style>
 </head>
+
 <body>
     <h1>主要取引先 逆引きツール</h1>
     <label for="codeInput">企業名を入力:</label>
@@ -105,7 +110,14 @@
             list += "</ul>";
             resultDiv.innerHTML += list;
         }
+        
+        // Enterキーでも検索できるようにする
+        document.getElementById("codeInput").addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                searchCompany();
+            }
+        });
     </script>
 </body>
-</html>
 
+</html>
