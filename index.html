@@ -91,24 +91,57 @@
             });
         }
 
-        // 選択した取引先を持つ企業を表示
+        // 選択した取引先を持つ企業を表示（割合付き & 降順ソート）
         function showCompanies(partnerName) {
             const resultDiv = document.getElementById("result");
             resultDiv.innerHTML = `<h3>「${partnerName}」と取引している企業:</h3>`;
-            let list = "<ul>";
+
+            let results = [];
 
             companyData.forEach(company => {
                 if (company["主要取引先"]) {
                     company["主要取引先"].forEach(partner => {
                         if (partner["取引先名"] === partnerName) {
-                            list += `<li>${company["証券コード"]} : ${company["企業名"]} - 割合: ${company["割合"]}%</li>`;
+                            results.push({
+                                code: company["証券コード"],
+                                name: company["企業名"],
+                                ratio: parseFloat(partner["割合"])
+                            });
                         }
                     });
                 }
             });
 
-            list += "</ul>";
-            resultDiv.innerHTML += list;
+            // 割合の降順にソート
+            results.sort((a, b) => b.ratio - a.ratio);
+
+            if (results.length === 0) {
+                resultDiv.innerHTML += "<p>該当する企業はありません。</p>";
+                return;
+            }
+
+            // 表形式で出力
+            let table = `
+                <table>
+                    <tr>
+                        <th>証券コード</th>
+                        <th>企業名</th>
+                        <th>割合(%)</th>
+                    </tr>
+            `;
+
+            results.forEach(item => {
+                table += `
+                    <tr>
+                        <td>${item.code}</td>
+                        <td>${item.name}</td>
+                        <td>${item.ratio}</td>
+                    </tr>
+                `;
+            });
+
+            table += "</table>";
+            resultDiv.innerHTML += table;
         }
 
         // Enterキーでも検索できるようにする
