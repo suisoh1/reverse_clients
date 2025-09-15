@@ -120,7 +120,7 @@
                 return;
             }
 
-            matchesDiv.innerHTML = `<p>「$${partnerName}」に一致した取引先を選んでください:</p>`;
+            matchesDiv.innerHTML = `<p>「$${inputName}」に一致した取引先を選んでください:</p>`;
             matches.forEach(name => {
                 const div = document.createElement("div");
                 div.textContent = name;
@@ -177,6 +177,7 @@
 
             list += "</ul>";
             resultDiv.innerHTML += list;
+            resultDiv.scrollIntoView({ behavior: "smooth", block: "start" });
         }
 
         // Enterキーでも検索できるようにする
@@ -185,7 +186,7 @@
                 searchCompany();
             }
         });
-        resultDiv.scrollIntoView({ behavior: "smooth", block: "start" });
+        
     </script>
 </body>
 
