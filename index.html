@@ -116,11 +116,11 @@
             });
 
             if (matches.size === 0) {
-                matchesDiv.innerHTML = `<p>企業名「${inputName}」への取引先は見つかりませんでした。</p>`;
+                matchesDiv.innerHTML = `<p>企業名「${inputName}」の主要取引先は見つかりませんでした。</p>`;
                 return;
             }
 
-            matchesDiv.innerHTML = `<p>「$${inputName}」に一致した取引先を選んでください:</p>`;
+            matchesDiv.innerHTML = `<p>「${inputName}」に一致した取引先を選んでください:</p>`;
             matches.forEach(name => {
                 const div = document.createElement("div");
                 div.textContent = name;
@@ -134,8 +134,8 @@
         function showCompanies(partnerName) {
             const matchesDiv = document.getElementById("matches");
             const resultDiv = document.getElementById("result");
-            // --- 結果を matchesDiv のすぐ下に移動 ---
-            matchesDiv.insertAdjacentElement("afterend", resultDiv);
+            // matchesDiv の直下に配置
+            matchesDiv.parentNode.insertBefore(resultDiv, matchesDiv.nextSibling);
             resultDiv.innerHTML = `<h3>「${partnerName}」が主要取引先の企業(割合でソート):</h3>`;
 
             let results = [];
