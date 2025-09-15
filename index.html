@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>主要取引先逆引きツール</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #matches {
+            margin-top: 10px;
+        }
+        .match-item {
+            cursor: pointer;
+            padding: 5px;
+            border: 1px solid #ccc;
+            margin: 2px 0;
+            border-radius: 5px;
+        }
+        .match-item:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <h1>主要取引先 逆引きツール</h1>
+    <label for="codeInput">取引先名を入力:</label>
+    <input type="text" id="codeInput" placeholder="例: 武田薬品">
+    <button onclick="searchCompany()">検索</button>
+
+    <div id="matches"></div>
+    <p id="result"></p>
+
+    <script>
+        let companyData = [];
+
+        // JSONデータを読み込み
+        fetch("data.json")
+            .then(response => response.json())
+            .then(data => {
+                companyData = data;
+            })
+            .catch(error => {
+                console.error("データ読み込みエラー:", error);
+            });
+
+        // 部分一致検索
+        function searchCompany() {
+            const input = document.getElementById("codeInput").value.trim();
+            const matchesDiv = document.getElementById("matches");
+            const resultDiv = document.getElementById("result");
+            matchesDiv.innerHTML = "";
+            resultDiv.innerHTML = "";
+
+            if (!input) {
+                matchesDiv.innerHTML = "<p>取引先名を入力してください。</p>";
+                return;
+            }
+
+            let matches = new Set();
+
+            companyData.forEach(company => {
+                if (company["主要取引先"]) {
+                    company["主要取引先"].forEach(partner => {
+                        if (partner["取引先名"].includes(input)) {
+                            matches.add(partner["取引先名"]);
+                        }
+                    });
+                }
+            });
+
+            if (matches.size === 0) {
+                matchesDiv.innerHTML = "<p>該当する取引先は見つかりませんでした。</p>";
+                return;
+            }
+
+            matchesDiv.innerHTML = "<p>一致した取引先を選んでください:</p>";
+            matches.forEach(name => {
+                const div = document.createElement("div");
+                div.textContent = name;
+                div.classList.add("match-item");
+                div.onclick = () => showCompanies(name);
+                matchesDiv.appendChild(div);
+            });
+        }
+
+        // 選択した取引先を持つ企業を表示
+        function showCompanies(partnerName) {
+            const resultDiv = document.getElementById("result");
+            resultDiv.innerHTML = `<h3>「${partnerName}」と取引している企業:</h3>`;
+            let list = "<ul>";
+
+            companyData.forEach(company => {
+                if (company["主要取引先"]) {
+                    company["主要取引先"].forEach(partner => {
+                        if (partner["取引先名"] === partnerName) {
+                            list += `<li>${company["証券コード"]} : ${company["企業名"]}</li>`;
+                        }
+                    });
+                }
+            });
+
+            list += "</ul>";
+            resultDiv.innerHTML += list;
+        }
+    </script>
+</body>
+</html>
