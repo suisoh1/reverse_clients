@@ -60,8 +60,8 @@
 
 <body>
     <h1>主要取引先 逆引きツール</h1>
-    <label for="codeInput">企業名を入力:</label>
-    <input type="text" id="codeInput" placeholder="例:トヨタ自動車">
+    <label for="codeInput">企業名か証券コードを入力(上場企業以外でも可):</label>
+    <input type="text" id="codeInput" placeholder="例:7203,トヨタ自動車">
     <button onclick="searchCompany()">検索</button>
 
     <div id="matches"></div>
@@ -90,11 +90,20 @@
             resultDiv.innerHTML = "";
 
             if (!input) {
-                matchesDiv.innerHTML = "<p>取引先名を入力してください。</p>";
+                matchesDiv.innerHTML = "<p>企業名または証券コードを入力してください。</p>";
                 return;
             }
 
             let matches = new Set();
+
+            const companyByCode = companyData.find(c => c["証券コード"] === input);
+            if (companyByCode) {
+                // 証券コードで見つかった場合 → 企業名を検索対象にする
+                inputName = companyByCode["企業名"];
+            } else {
+                // コードで見つからなければ → 入力そのままを企業名とみなす
+                inputName = input;
+            }
 
             companyData.forEach(company => {
                 if (company["主要取引先"]) {
