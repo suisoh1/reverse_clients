@@ -101,7 +101,7 @@
                 if (company["主要取引先"]) {
                     company["主要取引先"].forEach(partner => {
                         if (partner["取引先名"] === partnerName) {
-                            list += `<li>${company["証券コード"]} : ${company["企業名"]}</li>`;
+                            list += `<li>${company["証券コード"]} : ${company["企業名"]} - 割合: ${company["割合"]}%</li>`;
                         }
                     });
                 }
@@ -110,7 +110,7 @@
             list += "</ul>";
             resultDiv.innerHTML += list;
         }
-        
+
         // Enterキーでも検索できるようにする
         document.getElementById("codeInput").addEventListener("keydown", function (event) {
             if (event.key === "Enter") {
