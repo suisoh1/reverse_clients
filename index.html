@@ -83,6 +83,7 @@
         // 部分一致検索
         function searchCompany() {
             const input = document.getElementById("codeInput").value.trim();
+            document.getElementById("codeInput").value = "";
             const matchesDiv = document.getElementById("matches");
             const resultDiv = document.getElementById("result");
             matchesDiv.innerHTML = "";
