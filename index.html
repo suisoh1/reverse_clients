@@ -132,10 +132,7 @@
 
         // 選択した取引先を持つ企業を表示（割合付き & 降順ソート）
         function showCompanies(partnerName) {
-            const matchesDiv = document.getElementById("matches");
             const resultDiv = document.getElementById("result");
-            // matchesDiv の直下に配置
-            matchesDiv.parentNode.insertBefore(resultDiv, matchesDiv.nextSibling);
             resultDiv.innerHTML = `<h3>「${partnerName}」が主要取引先の企業(割合でソート):</h3>`;
 
             let results = [];
@@ -186,7 +183,7 @@
                 searchCompany();
             }
         });
-        
+
     </script>
 </body>
 
