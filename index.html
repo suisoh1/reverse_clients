@@ -108,7 +108,7 @@
             companyData.forEach(company => {
                 if (company["主要取引先"]) {
                     company["主要取引先"].forEach(partner => {
-                        if (partner["取引先名"].includes(input)) {
+                        if (partner["取引先名"].includes(inputName)) {
                             matches.add(partner["取引先名"]);
                         }
                     });
@@ -116,7 +116,7 @@
             });
 
             if (matches.size === 0) {
-                matchesDiv.innerHTML = `<p>企業名「${input}」への取引先は見つかりませんでした。</p>`;
+                matchesDiv.innerHTML = `<p>企業名「${inputName}」への取引先は見つかりませんでした。</p>`;
                 return;
             }
 
